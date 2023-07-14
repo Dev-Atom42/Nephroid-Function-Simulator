@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import tkinter
-from tkinter import ttk
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.backend_bases import key_press_handler
 import matplotlib.pyplot as plt
@@ -17,6 +16,8 @@ def cartesian():
 	r = R/2
 	P = primitiveSize.get()
 
+	text1.set("Размера примитива ( >2 ):")
+	
 	if P < 2:
 	    print("По условию задачи размер примитива должен быть >2. Выбираю размер 2.")
 	    text1.set("По условию задачи размер примитива должен быть >2. В любом случае выбран размер 2.")
@@ -118,10 +119,14 @@ def polar():
 	a = 32/2
 	P = primitiveSize.get()
 
+	text1.set("Размера примитива ( >2 ):")
+
 	if P < 2:
 	    print("По условию задачи размер примитива должен быть >2. Выбираю размер 2.")
 	    text1.set("По условию задачи размер примитива должен быть >2. В любом случае выбран размер 2.")
 	    P = 2
+	elif P > 10:
+	    P = 10
 
 	theta = np.pi * 2
 	rads = np.arange(0, (theta), 0.01)
@@ -141,7 +146,7 @@ def polar():
 	ax.add_artist(punct)
 	ax.add_artist(trace)
 
-	ax.set_rmax(4.4*a)
+	ax.set_rmax(4.2*a)
 
 	canvas = FigureCanvasTkAgg(fig, master=root)
 	canvas.draw()
