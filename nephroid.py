@@ -1,13 +1,18 @@
 #!/usr/bin/python3
+import tkinter
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
+from matplotlib.backend_bases import key_press_handler
 import matplotlib.pyplot as plt
 from matplotlib import animation
 from math import *
 import numpy as np
 
 def cartesian():
-	R = float(input(" a = "))
+	R = 4
+#float(input(" a = "))
 	r = R/2
-	P = int(input("Size of primitive = "))
+	P = 4
+#int(input("Size of primitive = "))
 
 
 
@@ -39,6 +44,22 @@ def cartesian():
 	ax.add_artist(punct)
 	ax.add_artist(circler)
 	ax.add_artist(trace)
+
+	canvas = FigureCanvasTkAgg(fig, master=root)
+	canvas.draw()
+
+	toolbar = NavigationToolbar2Tk(canvas, root, pack_toolbar=False)
+	toolbar.update()
+
+	canvas.mpl_connect(
+	    "key_press_event", lambda event: print(f"you pressed {event.key}"))
+	canvas.mpl_connect("key_press_event", key_press_handler)
+
+	button = tkinter.Button(master=root, text="Quit", command=root.quit)
+	button.pack(side=tkinter.BOTTOM)
+
+	toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X)
+	canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 
 	def init():
 	    circler.center = (x, y)
@@ -85,11 +106,11 @@ def cartesian():
 	                               blit=True)
 
 	plt.grid()
-	plt.show()
+	tkinter.mainloop()
 
 def polar():
-	a = float(input(" a = "))/2
-	P = int(input("Size of primitive = "))
+	a = 4/2
+	P = 4
 
 	theta = np.pi * 2
 	rads = np.arange(0, (theta), 0.01)
@@ -110,6 +131,22 @@ def polar():
 	ax.add_artist(trace)
 
 	ax.set_rmax(4.4*a)
+
+	canvas = FigureCanvasTkAgg(fig, master=root)
+	canvas.draw()
+
+	toolbar = NavigationToolbar2Tk(canvas, root, pack_toolbar=False)
+	toolbar.update()
+
+	canvas.mpl_connect(
+	    "key_press_event", lambda event: print(f"you pressed {event.key}"))
+	canvas.mpl_connect("key_press_event", key_press_handler)
+
+	button = tkinter.Button(master=root, text="Quit", command=root.quit)
+	button.pack(side=tkinter.BOTTOM)
+
+	toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X)
+	canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 
 	def init():
 	    ax.add_patch(punct)
@@ -133,10 +170,12 @@ def polar():
 	                               frames=circumference,
 	                               interval=20,
 	                               blit=True)
-	plt.show()
+	tkinter.mainloop()
 
 choose = int(input(" 1 - cartesian \n 2 - polar\n> "))
 if choose == 1:
-        cartesian()
+	root = tkinter.Tk()
+	cartesian()
 elif choose == 2:
+	root = tkinter.Tk()	
 	polar()
