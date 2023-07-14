@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import tkinter
+from tkinter import ttk
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.backend_bases import key_press_handler
 import matplotlib.pyplot as plt
@@ -8,18 +9,22 @@ from math import *
 import numpy as np
 
 def cartesian():
-	R = 4
-#float(input(" a = "))
+	global canvas
+	if canvas:
+	    canvas.get_tk_widget().destroy()	
+
+	R = 32
 	r = R/2
-	P = 4
-#int(input("Size of primitive = "))
+	P = primitiveSize.get()
 
-
+	if P < 2:
+	    print("По условию задачи размер примитива должен быть >2. Выбираю размер 2.")
+	    text1.set("По условию задачи размер примитива должен быть >2. В любом случае выбран размер 2.")
+	    P = 2
 
 	circumference = 360
 	x_points = []
 	y_points = []
-
 
 	print("Nephroid cartesian")
 
@@ -32,9 +37,10 @@ def cartesian():
 	raza = plt.Line2D((0, 0), (0, 0), linewidth=0, color="k", visible=False)
 	circler = plt.Circle((0, 0), r, color='r', fill=False, visible=False)
 	circleR = plt.Circle((0, 0), R, color='r', fill=False, visible=False)
-	punct = plt.Rectangle((0, 0), P/10, P/10, color="b", visible=True) 
+	punct = plt.Rectangle((0, 0), P/10, P/10, color="b", visible=Var1.get()) 
 	plt.Circle((0, 0), float(float(P)/10), color="b", visible=True)
 	fig, ax = plt.subplots()
+	ax.clear()
 	ax.set_xlim(-1.5*(R + r),1.5*(R + r))
 	ax.set_ylim(-1.5*(R + r),1.5*(R + r))
 	trace, = ax.plot([], [], color="r")
@@ -55,10 +61,6 @@ def cartesian():
 	    "key_press_event", lambda event: print(f"you pressed {event.key}"))
 	canvas.mpl_connect("key_press_event", key_press_handler)
 
-	button = tkinter.Button(master=root, text="Quit", command=root.quit)
-	button.pack(side=tkinter.BOTTOM)
-
-	toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X)
 	canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 
 	def init():
@@ -79,9 +81,9 @@ def cartesian():
 	    y2 = y_points[i]
 	    raza.set_data((x, x2), (y , y2))
 	    circler.center = (x, y)
-	    punct.set_width(P/10)
-	    punct.set_height(P/10)
-	    punct.set_xy([x2-(P/20), y2-(P/20)])
+	    punct.set_width(P)
+	    punct.set_height(P)
+	    punct.set_xy([x2-(P/2), y2-(P/2)])
 	    return circler, punct, raza,
 
 	def full_animate(i):
@@ -91,9 +93,9 @@ def cartesian():
 	    y2 = y_points[i]
 	    raza.set_data((x, x2), (y , y2))
 	    circler.center = (x, y)
-	    punct.set_width(P/10)
-	    punct.set_height(P/10)
-	    punct.set_xy([x2-(P/20), y2-(P/20)])
+	    punct.set_width(P)
+	    punct.set_height(P)
+	    punct.set_xy([x2-(P/2), y2-(P/2)])
 	    trace.set_data((x_points[:i], y_points[:i]))    
 	    return circler, punct, raza, trace,
 
@@ -106,11 +108,20 @@ def cartesian():
 	                               blit=True)
 
 	plt.grid()
-	tkinter.mainloop()
+	root.mainloop()
 
 def polar():
-	a = 4/2
-	P = 4
+	global canvas
+	if canvas:
+	    canvas.get_tk_widget().destroy()
+
+	a = 32/2
+	P = primitiveSize.get()
+
+	if P < 2:
+	    print("По условию задачи размер примитива должен быть >2. Выбираю размер 2.")
+	    text1.set("По условию задачи размер примитива должен быть >2. В любом случае выбран размер 2.")
+	    P = 2
 
 	theta = np.pi * 2
 	rads = np.arange(0, (theta), 0.01)
@@ -123,7 +134,7 @@ def polar():
 	    r = np.sqrt(2) * a * pow(( pow(1-np.cos(rad), 1/3) + pow(np.cos(rad) + 1, 1/3) ), 3/2)
 	    r_points.append(r)
 
-	punct = plt.Rectangle((0, 0), P/10, P/10, color="b", visible=True)
+	punct = plt.Rectangle((0, 0), P/10, P/10, color="b", visible=Var1.get())
 	fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
 	trace, = ax.plot([], [], color="r")
 	ax.grid(True)
@@ -142,10 +153,6 @@ def polar():
 	    "key_press_event", lambda event: print(f"you pressed {event.key}"))
 	canvas.mpl_connect("key_press_event", key_press_handler)
 
-	button = tkinter.Button(master=root, text="Quit", command=root.quit)
-	button.pack(side=tkinter.BOTTOM)
-
-	toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X)
 	canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 
 	def init():
@@ -159,9 +166,9 @@ def polar():
 	def primitive(i):
 	    x2 = rads[i]
 	    y2 = r_points[i]
-	    punct.set_width(P/(20*P))
-	    punct.set_height(P/10)
-	    punct.set_xy([x2-(P/(40*P)), y2-(P/20)])
+	    punct.set_width(P/(4*a))
+	    punct.set_height(P)
+	    punct.set_xy([x2-(P/(8*a)), y2-(P/2)])
 	    return punct,
 
 	graphic(circumference)
@@ -172,10 +179,27 @@ def polar():
 	                               blit=True)
 	tkinter.mainloop()
 
-choose = int(input(" 1 - cartesian \n 2 - polar\n> "))
-if choose == 1:
-	root = tkinter.Tk()
-	cartesian()
-elif choose == 2:
-	root = tkinter.Tk()	
-	polar()
+root = tkinter.Tk()
+
+button_c = tkinter.Button(master=root, text="Обновить график\n(в декартовой системе координат)", command=cartesian)
+button_c.pack(side=tkinter.BOTTOM)
+button_p = tkinter.Button(master=root, text="Обновить график\n(в полярной системе координат)", command=polar)
+button_p.pack(side=tkinter.BOTTOM)
+
+canvas = None
+
+Var1 = tkinter.IntVar()
+c1 = tkinter.Checkbutton(root, text='Примитив',variable=Var1, onvalue=1)
+c1.pack(side=tkinter.TOP)
+
+text1 = tkinter.StringVar()
+text1.set("Размера примитива ( >2 ):")
+label1 = tkinter.Label( root, textvariable=text1)
+label1.pack(side=tkinter.TOP)
+primitiveSize = tkinter.IntVar()
+entry = tkinter.Entry( root, textvariable=primitiveSize)
+primitiveSize.set("2")
+entry.pack(side=tkinter.TOP)
+
+root.mainloop()
+
