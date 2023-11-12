@@ -1,2 +1,2 @@
-# Nephroid-Function-Simulator
-Nephroid Function Simulator
+# Epicycloid-Function-Simulator
+Epicycloid (Cardioid, Nephroid, etc) Function Simulator
