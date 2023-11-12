@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+\#!/usr/bin/python3
 import tkinter
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.backend_bases import key_press_handler
@@ -12,16 +12,11 @@ def cartesian():
 	if canvas:
 	    canvas.get_tk_widget().destroy()	
 
-	R = 32
-	r = R/2
+	R = 32 #Значение по умолчанию (можно изменить)
+	r = R/2 #Значение по умолчанию для нефроиды (если изменить, будет не нефроида)
 	P = primitiveSize.get()
 
-	text1.set("Размера примитива ( >2 ):")
-	
-	if P < 2:
-	    print("По условию задачи размер примитива должен быть >2. Выбираю размер 2.")
-	    text1.set("По условию задачи размер примитива должен быть >2. В любом случае выбран размер 2.")
-	    P = 2
+	text1.set("Размера примитива:")
 
 	circumference = 360
 	x_points = []
@@ -119,14 +114,7 @@ def polar():
 	a = 32/2
 	P = primitiveSize.get()
 
-	text1.set("Размера примитива ( >2 ):")
-
-	if P < 2:
-	    print("По условию задачи размер примитива должен быть >2. Выбираю размер 2.")
-	    text1.set("По условию задачи размер примитива должен быть >2. В любом случае выбран размер 2.")
-	    P = 2
-	elif P > 10:
-	    P = 10
+	text1.set("Размера примитива:")
 
 	theta = np.pi * 2
 	rads = np.arange(0, (theta), 0.01)
@@ -198,7 +186,7 @@ c1 = tkinter.Checkbutton(root, text='Примитив',variable=Var1, onvalue=1)
 c1.pack(side=tkinter.TOP)
 
 text1 = tkinter.StringVar()
-text1.set("Размера примитива ( >2 ):")
+text1.set("Размера примитива:")
 label1 = tkinter.Label( root, textvariable=text1)
 label1.pack(side=tkinter.TOP)
 primitiveSize = tkinter.IntVar()
