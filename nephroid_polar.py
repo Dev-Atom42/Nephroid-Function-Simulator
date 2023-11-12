@@ -25,7 +25,7 @@ ax.grid(True)
 ax.add_artist(punct)
 ax.add_artist(trace)
 
-ax.set_rmax(4.4*a)
+ax.set_rmax(4.2*a)
 
 def init():
     ax.add_patch(punct)
