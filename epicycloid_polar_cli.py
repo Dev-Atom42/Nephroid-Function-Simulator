@@ -12,7 +12,7 @@ rads = np.arange(0, (theta), 0.01)
 circumference = len(rads)
 r_points = []
 
-print("Nephroid polar")
+print("Epicycloid polar")
 
 for rad in rads:
     r = np.sqrt(2) * a * pow(( pow(1-np.cos(rad), 1/3) + pow(np.cos(rad) + 1, 1/3) ), 3/2)
@@ -38,9 +38,9 @@ def graphic(i):
 def primitive(i):
     x2 = rads[i]
     y2 = r_points[i]
-    punct.set_width(P/10)
-    punct.set_height(P/10)
-    punct.set_xy([x2-(P/20), y2-(P/20)])
+    punct.set_width(P)
+    punct.set_height(P)
+    punct.set_xy([x2-(P/2), y2-(P/2)])
     return punct,
 
 graphic(circumference)

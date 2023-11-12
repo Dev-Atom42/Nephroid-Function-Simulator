@@ -12,8 +12,8 @@ def cartesian():
 	if canvas:
 	    canvas.get_tk_widget().destroy()	
 
-	R = graphicSize.get() #Радиус большей окружности.
-	r = R/2 #Радиус малой окружности. В нефроиде малая окружность в 2 раза меньше большей.
+	R = RSize.get() #Радиус большей окружности.
+	r = rSize.get() #Радиус малой окружности.
 	P = primitiveSize.get()
 
 	text1.set("Размера примитива:")
@@ -22,7 +22,7 @@ def cartesian():
 	x_points = []
 	y_points = []
 
-	print("Nephroid cartesian")
+	print("Epicycloid cartesian")
 
 	for s in range(0,circumference):
 	    x = (R + r) * cos(radians(s)) - r * cos(radians(((R + r)/r)*s))
@@ -111,7 +111,7 @@ def polar():
 	if canvas:
 	    canvas.get_tk_widget().destroy()
 
-	a = graphicSize.get()/2 #деление на 2, только для того, чтобы размерность полярной системы была такой же, как и в декартовой
+	a = RSize.get()/2 #деление на 2, только для того, чтобы размерность полярной системы была такой же, как и в декартовой
 	P = primitiveSize.get()
 
 	text1.set("Размера примитива:")
@@ -121,10 +121,10 @@ def polar():
 	circumference = len(rads)
 	r_points = []
 
-	print("Nephroid polar")
+	print("Epicycloid polar")
 
 	for rad in rads:
-	    r = np.sqrt(2) * a * pow(( pow(1-np.cos(rad), 1/3) + pow(np.cos(rad) + 1, 1/3) ), 3/2)
+	    r = np.sqrt(1) * a * pow(( pow(1-np.cos(rad), 1/3) + pow(np.cos(rad) + 1, 1/3) ), 3/2)
 	    r_points.append(r)
 
 	punct = plt.Rectangle((0, 0), P, P, color="b", visible=Var1.get())
@@ -195,12 +195,21 @@ primitiveSize.set("2")
 entry_primitive.pack(side=tkinter.TOP)
 
 text2 = tkinter.StringVar()
-text2.set("Размера графика (радиус):")
+text2.set("Размера большей окружности:")
 label2 = tkinter.Label( root, textvariable=text2)
 label2.pack(side=tkinter.TOP)
-graphicSize = tkinter.IntVar()
-entry_graphic = tkinter.Entry( root, textvariable=graphicSize)
-graphicSize.set("32")
-entry_graphic.pack(side=tkinter.TOP)
+RSize = tkinter.IntVar()
+entry_R = tkinter.Entry( root, textvariable=RSize)
+RSize.set("32")
+entry_R.pack(side=tkinter.TOP)
+
+text3 = tkinter.StringVar()
+text3.set("Размер малой окружности:")
+label3 = tkinter.Label( root, textvariable=text3)
+label3.pack(side=tkinter.TOP)
+rSize = tkinter.IntVar()
+entry_r = tkinter.Entry( root, textvariable=rSize)
+rSize.set("16")
+entry_r.pack(side=tkinter.TOP)
 
 root.mainloop()

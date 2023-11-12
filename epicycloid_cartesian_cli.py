@@ -4,8 +4,8 @@ from matplotlib import animation
 from math import *
 import numpy as np
 
-R = float(input(" a = "))
-r = R/2
+R = float(input(" R = "))
+r = float(input(" r =  "))
 P = int(input("Size of primitive = "))
 
 
@@ -15,7 +15,7 @@ x_points = []
 y_points = []
 
 
-print("Nephroid cartesian")
+print("Epicycloid cartesian")
 
 for s in range(0,circumference):
     x = (R + r) * cos(radians(s)) - r * cos(radians(((R + r)/r)*s))
@@ -26,8 +26,8 @@ for s in range(0,circumference):
 raza = plt.Line2D((0, 0), (0, 0), linewidth=0, color="k", visible=False)
 circler = plt.Circle((0, 0), r, color='r', fill=False, visible=False)
 circleR = plt.Circle((0, 0), R, color='r', fill=False, visible=False)
-punct = plt.Rectangle((0, 0), P/10, P/10, color="b", visible=True) 
-plt.Circle((0, 0), float(float(P)/10), color="b", visible=True)
+punct = plt.Rectangle((0, 0), P, P, color="b", visible=True) 
+plt.Circle((0, 0), float(float(P)), color="b", visible=True)
 fig, ax = plt.subplots()
 ax.set_xlim(-1.5*(R + r),1.5*(R + r))
 ax.set_ylim(-1.5*(R + r),1.5*(R + r))
@@ -57,9 +57,9 @@ def primitive(i):
     y2 = y_points[i]
     raza.set_data((x, x2), (y , y2))
     circler.center = (x, y)
-    punct.set_width(P/10)
-    punct.set_height(P/10)
-    punct.set_xy([x2-(P/20), y2-(P/20)])
+    punct.set_width(P)
+    punct.set_height(P)
+    punct.set_xy([x2-(P/2), y2-(P/2)])
     return circler, punct, raza,
 
 def full_animate(i):
@@ -69,9 +69,9 @@ def full_animate(i):
     y2 = y_points[i]
     raza.set_data((x, x2), (y , y2))
     circler.center = (x, y)
-    punct.set_width(P/10)
-    punct.set_height(P/10)
-    punct.set_xy([x2-(P/20), y2-(P/20)])
+    punct.set_width(P)
+    punct.set_height(P)
+    punct.set_xy([x2-(P)/2, y2-(P)/2])
     trace.set_data((x_points[:i], y_points[:i]))    
     return circler, punct, raza, trace,
 
