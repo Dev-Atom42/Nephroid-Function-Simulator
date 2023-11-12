@@ -1,4 +1,4 @@
-\#!/usr/bin/python3
+#!/usr/bin/python3
 import tkinter
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.backend_bases import key_press_handler
@@ -12,8 +12,8 @@ def cartesian():
 	if canvas:
 	    canvas.get_tk_widget().destroy()	
 
-	R = 32 #Значение по умолчанию (можно изменить)
-	r = R/2 #Значение по умолчанию для нефроиды (если изменить, будет не нефроида)
+	R = graphicSize.get() #Радиус большей окружности.
+	r = R/2 #Радиус малой окружности. В нефроиде малая окружность в 2 раза меньше большей.
 	P = primitiveSize.get()
 
 	text1.set("Размера примитива:")
@@ -33,8 +33,8 @@ def cartesian():
 	raza = plt.Line2D((0, 0), (0, 0), linewidth=0, color="k", visible=False)
 	circler = plt.Circle((0, 0), r, color='r', fill=False, visible=False)
 	circleR = plt.Circle((0, 0), R, color='r', fill=False, visible=False)
-	punct = plt.Rectangle((0, 0), P/10, P/10, color="b", visible=Var1.get()) 
-	plt.Circle((0, 0), float(float(P)/10), color="b", visible=True)
+	punct = plt.Rectangle((0, 0), P, P, color="b", visible=Var1.get()) 
+	plt.Circle((0, 0), float(float(P)), color="b", visible=True)
 	fig, ax = plt.subplots()
 	ax.clear()
 	ax.set_xlim(-1.5*(R + r),1.5*(R + r))
@@ -111,7 +111,7 @@ def polar():
 	if canvas:
 	    canvas.get_tk_widget().destroy()
 
-	a = 32/2
+	a = graphicSize.get()/2 #деление на 2, только для того, чтобы размерность полярной системы была такой же, как и в декартовой
 	P = primitiveSize.get()
 
 	text1.set("Размера примитива:")
@@ -127,7 +127,7 @@ def polar():
 	    r = np.sqrt(2) * a * pow(( pow(1-np.cos(rad), 1/3) + pow(np.cos(rad) + 1, 1/3) ), 3/2)
 	    r_points.append(r)
 
-	punct = plt.Rectangle((0, 0), P/10, P/10, color="b", visible=Var1.get())
+	punct = plt.Rectangle((0, 0), P, P, color="b", visible=Var1.get())
 	fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
 	trace, = ax.plot([], [], color="r")
 	ax.grid(True)
@@ -190,9 +190,17 @@ text1.set("Размера примитива:")
 label1 = tkinter.Label( root, textvariable=text1)
 label1.pack(side=tkinter.TOP)
 primitiveSize = tkinter.IntVar()
-entry = tkinter.Entry( root, textvariable=primitiveSize)
+entry_primitive = tkinter.Entry( root, textvariable=primitiveSize)
 primitiveSize.set("2")
-entry.pack(side=tkinter.TOP)
+entry_primitive.pack(side=tkinter.TOP)
+
+text2 = tkinter.StringVar()
+text2.set("Размера графика (радиус):")
+label2 = tkinter.Label( root, textvariable=text2)
+label2.pack(side=tkinter.TOP)
+graphicSize = tkinter.IntVar()
+entry_graphic = tkinter.Entry( root, textvariable=graphicSize)
+graphicSize.set("32")
+entry_graphic.pack(side=tkinter.TOP)
 
 root.mainloop()
-
