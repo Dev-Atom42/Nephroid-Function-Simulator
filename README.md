@@ -1,4 +1,16 @@
-# Epicycloid-Function-Simulator
-Epicycloid (Cardioid, Nephroid, etc) Function Simulator
+# Epicycloid (Cardioid, Nephroid, etc) Function Visualizer.
+# Визуализатор функций Эпициклоиды (Кардиоиды, Нефроиды и т.д.).
+Написано на языке программирования Python.
+Лицензия GPLv3.
+Автор Atom42.
+Простой проект, визуализирующий эпициклоиду. Так же присутствует анимация примитива движущаяся по графику.
+## Dependencies (Зависимости)
+- tkinter
+- matplotlib
+- numpy
+Для работы программы, нужно чтобы данные питоновские пакеты были установлены.
 
-### in development (i'm lazy to do it)
+## За что отвечает каждый файл?
+epicycloid_gui.py - содержит в себе декартовую и полярную систему координат, имеет GUI.
+epicycloid_cartesian_cli.py - содержит в себе только декартовую систему координат, параметры задаются через консоль.
+epicycloid_polar_cli.py - содержит в себе полярную систему координат, параметры задаются через консоль.
