@@ -12,13 +12,17 @@ def cartesian():
 	if canvas:
 	    canvas.get_tk_widget().destroy()	
 
+	plt.close('all')
+
 	R = RSize.get() #Радиус большей окружности.
 	r = rSize.get() #Радиус малой окружности.
 	P = primitiveSize.get()
 
-	text1.set("Размера примитива:")
+	if R >= r:
+	    circumference = 360
+	else:
+	    circumference = ceil(360 * (r/R))
 
-	circumference = 360
 	x_points = []
 	y_points = []
 
@@ -57,7 +61,7 @@ def cartesian():
 	    "key_press_event", lambda event: print(f"you pressed {event.key}"))
 	canvas.mpl_connect("key_press_event", key_press_handler)
 
-	canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
+	canvas.get_tk_widget().grid(column=0, row=0, rowspan=11, sticky='news')
 
 	def init():
 	    circler.center = (x, y)
@@ -103,6 +107,15 @@ def cartesian():
 	                               interval=20,
 	                               blit=True)
 
+	plt.axis('scaled')
+	if (R-r) != 0:
+	    if R > r:
+	        plt.axis([-6*(R-r), 6*(R-r), -6*(R-r), 6*(R-r)])
+	    elif R < r:
+	        plt.axis([-6*(r-R), 6*(r-R), -6*(r-R), 6*(r-R)])
+	else:
+	    plt.axis([-3.5*R, 3.5*R, -3.5*R, 3.5*R])
+
 	plt.grid()
 	root.mainloop()
 
@@ -111,12 +124,17 @@ def polar():
 	if canvas:
 	    canvas.get_tk_widget().destroy()
 
-	a = RSize.get()/2 #деление на 2, только для того, чтобы размерность полярной системы была такой же, как и в декартовой
+	plt.close('all')
+
+	a = RSize.get()
+	b = rSize.get()
 	P = primitiveSize.get()
 
-	text1.set("Размера примитива:")
+	if a >= b:
+	    theta = np.pi * 2
+	else:
+	    theta = np.pi * 2 * (b/a)
 
-	theta = np.pi * 2
 	rads = np.arange(0, (theta), 0.01)
 	circumference = len(rads)
 	r_points = []
@@ -124,7 +142,7 @@ def polar():
 	print("Epicycloid polar")
 
 	for rad in rads:
-	    r = np.sqrt(1) * a * pow(( pow(1-np.cos(rad), 1/3) + pow(np.cos(rad) + 1, 1/3) ), 3/2)
+	    r = np.sqrt(pow(a + b, 2) + pow(b, 2) - 2 * b * (a + b) * np.cos((a/b) * rad))
 	    r_points.append(r)
 
 	punct = plt.Rectangle((0, 0), P, P, color="b", visible=Var1.get())
@@ -134,7 +152,13 @@ def polar():
 	ax.add_artist(punct)
 	ax.add_artist(trace)
 
-	ax.set_rmax(4.2*a)
+	if (a-b) != 0:
+	    if a > b:
+	        ax.set_rmax(6*(a-b))
+	    elif a < b:
+	        ax.set_rmax(6*(b-a))
+	else:
+	    ax.set_rmax(3.5*a)
 
 	canvas = FigureCanvasTkAgg(fig, master=root)
 	canvas.draw()
@@ -146,7 +170,7 @@ def polar():
 	    "key_press_event", lambda event: print(f"you pressed {event.key}"))
 	canvas.mpl_connect("key_press_event", key_press_handler)
 
-	canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
+	canvas.get_tk_widget().grid(column=0, row=0, rowspan=11, sticky='news')
 
 	def init():
 	    ax.add_patch(punct)
@@ -173,43 +197,41 @@ def polar():
 	tkinter.mainloop()
 
 root = tkinter.Tk()
-
-button_c = tkinter.Button(master=root, text="Обновить график\n(в декартовой системе координат)", command=cartesian)
-button_c.pack(side=tkinter.BOTTOM)
-button_p = tkinter.Button(master=root, text="Обновить график\n(в полярной системе координат)", command=polar)
-button_p.pack(side=tkinter.BOTTOM)
+root.title('Epicycloid Function Visualizer')
 
 canvas = None
 
-Var1 = tkinter.IntVar()
-c1 = tkinter.Checkbutton(root, text='Примитив',variable=Var1, onvalue=1)
-c1.pack(side=tkinter.TOP)
+root.columnconfigure(0, weight=3)
+root.rowconfigure(8, weight=1)
 
-text1 = tkinter.StringVar()
-text1.set("Размера примитива:")
-label1 = tkinter.Label( root, textvariable=text1)
-label1.pack(side=tkinter.TOP)
-primitiveSize = tkinter.IntVar()
-entry_primitive = tkinter.Entry( root, textvariable=primitiveSize)
-primitiveSize.set("2")
-entry_primitive.pack(side=tkinter.TOP)
-
-text2 = tkinter.StringVar()
-text2.set("Размера большей окружности:")
-label2 = tkinter.Label( root, textvariable=text2)
-label2.pack(side=tkinter.TOP)
+text1 = tkinter.Label(root, text="Размер большей окружности:")
+text1.grid(column=1, row=0, sticky='news')
 RSize = tkinter.IntVar()
 entry_R = tkinter.Entry( root, textvariable=RSize)
 RSize.set("32")
-entry_R.pack(side=tkinter.TOP)
+entry_R.grid(column=1, row=1, sticky='news')
 
-text3 = tkinter.StringVar()
-text3.set("Размер малой окружности:")
-label3 = tkinter.Label( root, textvariable=text3)
-label3.pack(side=tkinter.TOP)
+text2 = tkinter.Label(root, text="Размер малой окружности:")
+text2.grid(column=1, row=2, sticky='news')
 rSize = tkinter.IntVar()
 entry_r = tkinter.Entry( root, textvariable=rSize)
 rSize.set("16")
-entry_r.pack(side=tkinter.TOP)
+entry_r.grid(column=1, row=3, sticky='news')
+
+Var1 = tkinter.IntVar()
+c1 = tkinter.Checkbutton(root, text='Отоброжать примитив',variable=Var1, onvalue=1)
+c1.grid(column=1, row=6, sticky='news')
+
+text3 = tkinter.Label(root, text="Размер примитива:")
+text3.grid(column=1, row=4)
+primitiveSize = tkinter.IntVar()
+entry_primitive = tkinter.Entry( root, textvariable=primitiveSize)
+primitiveSize.set("2")
+entry_primitive.grid(column=1, row=5, sticky='news')
+
+button_c = tkinter.Button(root, text="Обновить график\n(в декартовой системе координат)", command=cartesian)
+button_c.grid(column=1, row=9, sticky='news')
+button_p = tkinter.Button(root, text="Обновить график\n(в полярной системе координат)", command=polar)
+button_p.grid(column=1, row=10, sticky='news')
 
 root.mainloop()

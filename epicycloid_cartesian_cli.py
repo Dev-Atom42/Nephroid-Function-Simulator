@@ -4,16 +4,17 @@ from matplotlib import animation
 from math import *
 import numpy as np
 
-R = float(input(" R = "))
-r = float(input(" r =  "))
+R = float(input("R = "))
+r = float(input("r = "))
 P = int(input("Size of primitive = "))
 
+if R >= r:
+    circumference = 360
+else:
+    circumference = ceil(360 * (r/R))
 
-
-circumference = 360
 x_points = []
 y_points = []
-
 
 print("Epicycloid cartesian")
 
@@ -82,6 +83,17 @@ anim = animation.FuncAnimation(fig, primitive,
                                frames=circumference,
                                interval=20,
                                blit=True)
+
+
+plt.axis('scaled')
+
+if (R-r) != 0:
+    if R > r:
+        plt.axis([-6*(R-r), 6*(R-r), -6*(R-r), 6*(R-r)])
+    elif R < r:
+        plt.axis([-6*(r-R), 6*(r-R), -6*(r-R), 6*(r-R)])
+else:
+    plt.axis([-3.5*R, 3.5*R, -3.5*R, 3.5*R])
 
 plt.grid()
 plt.show()
