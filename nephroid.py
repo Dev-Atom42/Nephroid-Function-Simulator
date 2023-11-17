@@ -82,8 +82,8 @@ def cartesian():
 	    return circler, punct, raza,
 
 	def full_animate(i):
-	    x = (r +  R) * np.cos(np.radians(i))
-	    y = (r + R) * np.sin(np.radians(i))
+	    x = 3 * r * np.cos(np.radians(i))
+	    y = 3 * r * np.sin(np.radians(i))
 	    x2 = x_points[i]
 	    y2 = y_points[i]
 	    raza.set_data((x, x2), (y , y2))
