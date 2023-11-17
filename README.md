@@ -1,23 +1,21 @@
+Description in English. My english may be bad and here [описание на русском](README_RU.md).  
 # Epicycloid (Cardioid, Nephroid, etc) Function Visualizer.
-![Example of a working programm](example.png "example")
-# Визуализатор функций Эпициклоиды (Кардиоиды, Нефроиды и т.д.).
-Написано на языке программирования Python.  
-Лицензия GPLv3.  
-Автор Atom42.  
-Простой проект, визуализирующий эпициклоиду. Так же присутствует анимация примитива движущаяся по графику.  
-## Dependencies (Зависимости)
-- tkinter
-- matplotlib
-- numpy
+![Example of a working program](example.png "example")  
+Written in Python.  
+License GPLv3.  
+Author Atom42.  
+A simple project to visualize an epicycloid. There is also animation of the primitive moving along the curve graph.  
+## Dependencies
+- tkinter  
+- matplotlib  
+- numpy  
 
-Для работы программы, нужно чтобы данные питоновские пакеты были установлены.
+These Python packages must be installed for the program to work.  
 
-## За что отвечает каждый файл?
-1. epicycloid_gui.py - содержит в себе декартовую и полярную систему координат, имеет GUI.
-2. epicycloid_cartesian_cli.py - содержит в себе только декартовую систему координат, параметры задаются через консоль.
-3. epicycloid_polar_cli.py - содержит в себе полярную систему координат, параметры задаются через консоль.
+## What does each file do?
+1. epicycloid_gui.py - contains a Cartesian and polar coordinate system, has a GUI.  
+2. epicycloid_cartesian_cli.py - contains only the Cartesian coordinate system, parameters are set via cli.  
+3. epicycloid_polar_cli.py - contains only the Polar coordinate system, parameters are set via cli.  
 
-## Что в планах?
-~~1. Переход на эпициклоиду~~  
-2. Увеличение функционала  
-3. Решение проблем  
+## What in plans?
+1. Make the program normal  
